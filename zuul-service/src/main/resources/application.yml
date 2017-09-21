@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: zuul-service
+
+server:
+  port: 9000
+
+# Zuul Configs
+zuul:
+  prefix: /api
+  routes:
+    hello-server:
+      path: /server/**
+      serviceId: HELLO-SERVER
+#      url: http://localhost:8071/ # only applicable if you don't have EUREKA SERVER
+    hello-client:
+      path: /client/**
+      serviceId: HELLO-CLIENT
+#      url: http://localhost:8072/ # only applicable if you don't have EUREKA SERVER
+
+# Eureka Configs
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8070/eureka/
+  instance:
+    hostname: localhost
+
+# Hystrix Config for timeouts
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000
