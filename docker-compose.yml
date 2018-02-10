@@ -1,0 +1,74 @@
+version: '3.4'
+services:
+    configserver:
+        build: config-server
+        restart: always
+        image: aldwindelgado/spring-microservice-github-sample-config-server
+        container_name: adgs-config-server
+        ports:
+            - "15000:5000"
+        networks:
+            -  docker-network
+        volumes:
+            - "/var/log/spring/microservice:/var/log/spring/microservice"
+
+    eurekaserver:
+        build: eureka-server
+        restart: always
+        image: aldwindelgado/spring-microservice-github-sample-eureka-server
+        container_name: adgs-eureka-server
+        depends_on:
+            - configserver
+        ports:
+            - "18070:8070"
+        networks:
+            - docker-network
+        volumes:
+            - "/var/log/spring/microservice:/var/log/spring/microservice"
+
+    zuulserver:
+        build: zuul-server
+        restart: always
+        image: aldwindelgado/spring-microservice-github-sample-zuul-server
+        container_name: adgs-zuul-server
+        depends_on:
+          - eurekaserver
+        ports:
+            - "19000:9000"
+        networks:
+            - docker-network
+        volumes:
+            - "/var/log/spring/microservice:/var/log/spring/microservice"
+
+    helloclient:
+        build: hello-client
+        restart: always
+        image: aldwindelgado/spring-microservice-github-sample-hello-client
+        container_name: adgs-hello-client
+        depends_on:
+          - eurekaserver
+        ports:
+            - "18072:8072"
+        networks:
+            - docker-network
+        volumes:
+            - "/var/log/spring/microservice:/var/log/spring/microservice"
+
+    helloserver:
+        build: hello-server
+        restart: always
+        image: aldwindelgado/spring-microservice-github-sample-hello-server
+        container_name: adgs-hello-server
+        depends_on:
+          - eurekaserver
+        ports:
+            - "18071:8071"
+        networks:
+            - docker-network
+        volumes:
+            - "/var/log/spring/microservice:/var/log/spring/microservice"
+
+#docker network create -d bridge docker-network
+networks:
+    docker-network:
+        external: true

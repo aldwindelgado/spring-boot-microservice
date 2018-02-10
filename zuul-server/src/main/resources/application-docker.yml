@@ -1,0 +1,30 @@
+spring:
+    profiles: docker
+    zipkin:
+        baseUrl: http://zipkin-server:10000/
+
+gateway:
+    serviceName: zuul-server
+    servicePort: 7001
+
+# Eureka Configs
+eureka:
+    instance:
+#        hostname: localhost
+        preferIpAddress: true # This is for the inter-container communication for docker
+        leaseRenewalIntervalInSeconds: 10
+        leaseExpirationDurationInSeconds: 5
+    client:
+        serviceUrl:
+            defaultZone: http://${gateway.serviceName}:${gateway.servicePort}/eureka/
+        healthcheck:
+            enabled: true
+        lease:
+            duration: 5
+    server:
+        waitTimeInMsWhenSyncEmpty: 0
+
+# Cache the config properties for 30 minutes before retrieving it once again
+health:
+    config:
+        time-to-live: 1800000 # milliseconds

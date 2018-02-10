@@ -1,0 +1,34 @@
+spring:
+    main:
+        banner-mode: 'off'
+    application:
+        name: eureka-server
+    cloud:
+        config:
+            uri: http://localhost:15000
+            username: config-server
+            password: $ampl3P@ssword
+            failFast: true
+            retry:
+                initial-interval: 3000
+                max-attempts: 10
+                max-interval: 4000
+                multiplier: 1.1
+
+---
+
+spring:
+    main:
+        banner-mode: 'off'
+    profiles: docker
+    cloud:
+        config:
+            uri: http://config-server:15000
+            username: config-server
+            password: $ampl3P@ssword
+            failFast: true
+            retry:
+                initial-interval: 3000
+                max-attempts: 10
+                max-interval: 4000
+                multiplier: 1.1

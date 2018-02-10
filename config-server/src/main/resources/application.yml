@@ -1,0 +1,43 @@
+server:
+    port: 5000
+
+# https://cloud.spring.io/spring-cloud-config/single/spring-cloud-config.html#_git_ssh_configuration_using_properties
+spring:
+    cloud:
+        config:
+            server:
+                # https://cloud.spring.io/spring-cloud-config/single/spring-cloud-config.html#_serving_encrypted_properties
+#                encrypt:
+#                    enabled: false
+                git:
+                    uri: https://github.com/aldwindelgado/spring-boot-cloud-config-repo
+
+                    ##
+                    # Enable the following settings for the private key SSH access
+                    # The public key should be added to the account settings (github or bitbucket etc.)
+                    ##
+#                    uri: git@github.com:aldwindelgado/spring-boot-cloud-config-repo.git
+#                    ignoreLocalSshSettings: true
+#                    privateKey: |
+#                                -----BEGIN RSA PRIVATE KEY-----
+#                                MIIJKAIBAAKCAgEAtqbAOjB7dx0t7vIHSRahCRAwgNJWYlT7N1QnsZSWTQ+UJLgJ
+#                                u6BljIRnNxen6YCYwxnA/izt/uzO29XUNm1LjZXCHenNTdClyRxIgT2CWLelzs0k
+#                                TEI7T3lUS2lJTeIZJJExO0oJaw8KsYmTccUPNS74VooguWz2j5eGElsven2llO3o
+#                                uRzZ1TPnoGlVdj929M/4yGOLywCROXEKP06mPAwWGagylfDQ+H0Uua0G7KMgL5zm
+#                                9OKvlpPwzvcJTsfoYr9ryoB4JCtM79Sum2j9sjBxszWdcoxzfZn9RXg8cnQb4hMr
+#                                MF3rmY0BYyJQ4hj1a+rshguSkG8lI3/0NnR0ykxQw1m1RrQ4bYOsuM5a27llVrKD
+#                                HgxRdfHSRIpZj2TNXCOcbkaKCmDsy6FEDOWpjvDrTvxfl8QhD3A3t5qf+BFJowIt
+#                                Dz6r673yjVmkQE2zX2LEoF7YfLvXLuz2+Xk+8r5wP3AXByxLmVi7LYa9NGh2ZYfQ
+#                                2zwfwK1sZOngtbSdDxypgX3qeZWI01/cX0PwO+vXL84yGw0bzyOXQEjaUUmNFiXA
+#                                ER5rGNmORcZ9/lX6vjhOs/eFgZtsa4vFSC5cXVhk+E+jEUsAJTGWZYclELalTm3i
+#                                oisOpx2AhadFyAJf1MHgc15KiEuy4VReRK4rHNByQpgbi/7zrfzJJ8ZWu4sCAwEA
+#                                ......
+#                                -----END RSA PRIVATE KEY-----
+
+logging:
+    level:
+#        org.springframework.security: DEBUG
+#    pattern:
+#        console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+#        file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: /var/log/spring/microservices/adgs-config-server.log

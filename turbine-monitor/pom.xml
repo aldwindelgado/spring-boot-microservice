@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.github.aldwindelgado</groupId>
-	<artifactId>hello-server</artifactId>
+	<artifactId>turbine-monitor</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>hello-server</name>
+	<name>turbine-monitor</name>
 	<description>Demo project for Spring Boot</description>
 
 	<parent>
@@ -28,7 +28,11 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+			<artifactId>spring-cloud-starter-netflix-turbine</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-turbine-stream</artifactId>
 		</dependency>
 
 		<dependency>
@@ -58,6 +62,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
-
 </project>

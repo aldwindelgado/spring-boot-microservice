@@ -4,11 +4,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.aldwindelgado</groupId>
-    <artifactId>hello-client</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>zuul-server</artifactId>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
-    <name>hello-client</name>
+    <name>zuul-server</name>
     <description>Demo project for Spring Boot</description>
 
     <parent>
@@ -23,6 +23,8 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <spring-cloud.version>Edgware.SR1</spring-cloud.version>
+        <docker.image.repository>aldwindelgado</docker.image.repository>
+        <docker.image.prefix>spring-microservice-github-sample</docker.image.prefix>
     </properties>
 
     <dependencies>
@@ -30,10 +32,9 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+            <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
         </dependency>
 
         <dependency>
@@ -60,6 +61,30 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <configuration>
+                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                    <dockerDirectory>docker/</dockerDirectory>
+                    <!--
+                        DOCKER_HOST will default connect to localhost:2375
+                        Refer to: https://github.com/spotify/docker-maven-plugin
+
+                        On WINDOWS: enable the docker-ce settings to allow 2375 to connect
+                        On LINUX: this will automatically detect the DOCKER_HOST so no need to do anything
+                    -->
+                    <!--<dockerHost>http://localhost:2375</dockerHost>-->
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
             </plugin>
         </plugins>
     </build>

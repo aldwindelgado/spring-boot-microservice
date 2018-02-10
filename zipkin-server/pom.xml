@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.github.aldwindelgado</groupId>
-	<artifactId>hello-server</artifactId>
+	<artifactId>zipkin-server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>hello-server</name>
+	<name>zipkin-server</name>
 	<description>Demo project for Spring Boot</description>
 
 	<parent>
@@ -28,7 +28,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+			<artifactId>spring-cloud-starter-zipkin</artifactId>
 		</dependency>
 
 		<dependency>

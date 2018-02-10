@@ -1,0 +1,17 @@
+spring:
+    application:
+        name: config-server
+    main:
+        banner-mode: 'off'
+
+encrypt:
+    keyStore:
+        location: classpath:/config/configkey.jks
+        password: $ampl3
+        alias: configkey
+        secret: $ampl3
+
+security:
+    user:
+        name: config-server
+        password: $ampl3P@ssword

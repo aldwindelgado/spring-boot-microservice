@@ -1,0 +1,93 @@
+spring:
+    application:
+        name: zuul-server
+    mvc:
+        throw-exception-if-no-handler-found: true
+    aop:
+        proxy-target-class: true
+    zipkin:
+        baseUrl: http://localhost:9411/
+    sleuth:
+        sampler:
+# Generally the tracing data volume can be quite high; so we can tell Spring sleuth to
+# sample only some percentage of requests by specifying a double value between 0.0 and 1.0.
+
+# For testing purposes, we are sampling all requests (1.0) but generally in production you should
+# sample only 10-20% of the data or write custom strategy to sample say only in case of 500 errors.
+            percentage: 1.0
+
+# Enable zipkin
+sample:
+    zipkin:
+        enabled: true
+
+server:
+    port: 9000
+
+management:
+    # Remove x-application-context on header reponse
+    add-application-context-header: false
+
+# Routing
+zuul:
+    ignoredServices: '*'
+    ribbon:
+        eager-load:
+            enabled: true
+    prefix: /api
+    routes:
+        hello-server:
+            sensitiveHeaders: # Pass all the headers from zuul up to the internal services
+            path: /server/**
+            serviceId: HELLO-SERVER
+            stripPrefix: false
+#            url: http://localhost:8071/ # only applicable if you don't have EUREKA/SERVICE DISCOVER
+        hello-client:
+            sensitiveHeaders: # Pass all the headers from zuul up to the internal services
+            path: /client/**
+            serviceId: HELLO-CLIENT
+            stripPrefix: false
+#      url: http://localhost:8072/ # only applicable if you don't have EUREKA SERVER
+
+gateway:
+    serviceName: zuul-server
+    servicePort: 7001
+
+# Eureka Configs
+eureka:
+    instance:
+        hostname: localhost
+        leaseRenewalIntervalInSeconds: 10
+        leaseExpirationDurationInSeconds: 5
+    client:
+        serviceUrl:
+            defaultZone: http://${gateway.serviceName}:${gateway.servicePort}/eureka/
+        healthcheck:
+            enabled: true
+        lease:
+            duration: 5
+    server:
+        waitTimeInMsWhenSyncEmpty: 0
+
+# Ribbon settings default to all ribbon-enabled services
+ribbon:
+    eureka:
+        enabled: true
+    MaxAutoRetries: 2
+    MaxAutoRetriesNextServer: 2
+    ConnectTimeout: 10000
+    ReadTimeout: 60000
+
+# Hystrix has low delay tolerance (around less than a second), hence we reconfigure it to be 30secs.
+hystrix:
+    command:
+        default:
+            execution:
+                isolation:
+                    thread:
+                        timeoutInMilliseconds: 30000 # 30secs
+
+# Cache the config properties for 30 minutes before retrieving it once again
+health:
+    config:
+        time-to-live: 1800000  # milliseconds
