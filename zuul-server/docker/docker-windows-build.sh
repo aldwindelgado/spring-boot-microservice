@@ -4,12 +4,12 @@ cd ..
 
 mvn clean package docker:build -DskipTests=true
 
-docker rm -f adgs-eureka-server
+docker rm -f adgs-zuul-server
 
 docker run \
     --restart=always \
-    --name adgs-eureka-server \
+    --name adgs-zuul-server \
     --net spring-microservice-network \
-    -p 18070:18070 \
+    -p 19000:19000 \
     -v C:\\temp\\docker\\spring\\microservices\\logs:/var/log/spring/microservices \
-    -d aldwindelgado/spring-microservice-github-sample-eureka-server
+    -d aldwindelgado/spring-microservice-github-sample-zuul-server

@@ -28,6 +28,6 @@ ENV SPRING_BOOT_JAR_FILE_NAME="$APP_JAR_NAME-$APP_JAR_VERSION.jar"
 
 COPY $SPRING_BOOT_JAR_FILE_NAME $SPRING_BOOT_JAR_FILE_NAME
 
-EXPOSE 5000
+EXPOSE 15000
 
 ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -Dspring.profiles.active=docker -jar /$SPRING_BOOT_JAR_FILE_NAME" ]

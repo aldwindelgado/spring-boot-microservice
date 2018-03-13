@@ -1,5 +1,5 @@
 server:
-    port: 5000
+    port: 15000
 
 # https://cloud.spring.io/spring-cloud-config/single/spring-cloud-config.html#_git_ssh_configuration_using_properties
 spring:
@@ -11,6 +11,8 @@ spring:
 #                    enabled: false
                 git:
                     uri: https://github.com/aldwindelgado/spring-boot-cloud-config-repo
+                    username: ${REPO_USERNAME}
+                    password: ${REPO_PASSWORD}
 
                     ##
                     # Enable the following settings for the private key SSH access

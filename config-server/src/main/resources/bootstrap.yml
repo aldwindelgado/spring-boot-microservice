@@ -3,6 +3,13 @@ spring:
         name: config-server
     main:
         banner-mode: 'off'
+    mvc:
+        throw-exception-if-no-handler-found: true
+
+management:
+    context-path: /admin
+    # Remove x-application-context on header reponse
+    add-application-context-header: false
 
 encrypt:
     keyStore:
@@ -11,7 +18,9 @@ encrypt:
         alias: configkey
         secret: $ampl3
 
+# Cipher is possible here because the keystore was already loaded by spring security...
 security:
     user:
         name: config-server
-        password: $ampl3P@ssword
+#        password: $ampl3P@ssword
+        password: '{cipher}AgCFchQcJq9KhZfeMWdSs/k6nlQ0OyKv0UY3aGSjhfWrAxMU77DDovmdGKibq6utAifAs+wO46teptmUpCHjvsqtE2+MqJEovcksFr3F4sKFE1qtIyeU9J8r7p8L611TYHnS7w8uMbyX8ZqnAA2H0HZqyRBjRj2eT4nVBo+FYgtkzNWHzPWtRhpYJoZH4HusN600tuUCoojEOM2D3QpmCdB4ga/anJFyC+Fy8wQphra5s/aMDYRp/MtA9tb3kjLENiLZ7xjJ+Yct+z1CrrDduSdITPIRJ7TTrHik5BmwidZAUYll1jr4JtPvbIQqA6dRsTRG8N0qgSleBI3mPZbKdPbUgp3X5dwacaYnFjIjzA4uAINIZensd8mkMw09HcwsmpgwSWoiVjG/odwdLrroW7KBFU7pkoz6VuSluVZHRkBcsoyehTl3w2QBGz95EIyMJe/z5H7BLFqV2SZCe9NY6JISi92s/dpsaDf5DKwz34V4KxvJC1l8EnIUOzLS27ChT/IiCXLnQNxM153Mi6qgLNvPRYSO8lTxv0AJXQFpmultQln2LRY0mGeFVen+5mc2pt/aVpgq+Bvky2v7jels4M95OpX4BzbaJgdYv4pzAcmWNdLZ3HGsZ6zas2QAUIXc2jvjFiUFfyjKfXrVtxnlPt7v49F/nf9BA/c2pOOZPSQi4Irm4sE+cmD3oW9QkXkISpLqXOUd68V+t3ywQjwfq3SP'

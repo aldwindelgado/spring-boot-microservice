@@ -2,7 +2,7 @@ spring:
     main:
         banner-mode: 'off'
     application:
-        name: eureka-server
+        name: zuul-server
     cloud:
         config:
             label: dev
@@ -25,8 +25,7 @@ spring:
     cloud:
         config:
             label: master
-#            uri: http://config-server:15000
-            uri: http://adgs-config-server:15000 # This is the container name of the docker instance and the exposed port
+            uri: http://adgs-config-server:15000  # This is the container name of the docker instance and the exposed port
             username: config-server
             password: $ampl3P@ssword
             failFast: true

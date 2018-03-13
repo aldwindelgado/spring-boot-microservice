@@ -9,7 +9,7 @@
     <packaging>jar</packaging>
 
     <name>zuul-server</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Gateway for microservices using Zuul</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -22,7 +22,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <spring-cloud.version>Edgware.SR1</spring-cloud.version>
+        <spring-cloud.version>Edgware.SR2</spring-cloud.version>
         <docker.image.repository>aldwindelgado</docker.image.repository>
         <docker.image.prefix>spring-microservice-github-sample</docker.image.prefix>
     </properties>
@@ -36,6 +36,53 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
+        </dependency>
+
+        <!--For config client retry-->
+        <dependency>
+            <groupId>org.springframework.retry</groupId>
+            <artifactId>spring-retry</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+        <!-- Exclude the built-in logger for spring -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- Use log4j2 as the logging mechanism instead of the built-in one -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
+        </dependency>
+
+        <!-- For log4j2.yml file -->
+        <!-- https://docs.spring.io/spring-boot/docs/current/reference/html/howto-logging.html#howto-configure-log4j-for-logging-yaml-or-json-config -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-yaml</artifactId>
+            <version>2.4.6</version>
+        </dependency>
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -67,8 +114,8 @@
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>1.0.0</version>
                 <configuration>
-                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
-                    <dockerDirectory>docker/</dockerDirectory>
+                    <imageName>${docker.image.repository}/${docker.image.prefix}-${project.artifactId}</imageName>
+                    <dockerDirectory>docker</dockerDirectory>
                     <!--
                         DOCKER_HOST will default connect to localhost:2375
                         Refer to: https://github.com/spotify/docker-maven-plugin
@@ -77,6 +124,11 @@
                         On LINUX: this will automatically detect the DOCKER_HOST so no need to do anything
                     -->
                     <!--<dockerHost>http://localhost:2375</dockerHost>-->
+                    <!-- optionally overwrite tags every time image is built with docker:build -->
+                    <forceTags>true</forceTags>
+                    <imageTags>
+                        <imageTag>${project.version}</imageTag>
+                    </imageTags>
                     <resources>
                         <resource>
                             <targetPath>/</targetPath>
