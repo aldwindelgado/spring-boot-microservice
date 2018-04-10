@@ -16,6 +16,7 @@
         <module>hello-server</module>
         <module>zuul-server</module>
         <module>turbine-monitor</module>
+        <module>hello-feign-client</module>
     </modules>
 
 </project>
